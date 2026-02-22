@@ -7,9 +7,11 @@ from rich.table import Table
 
 console = Console(record=True)
 
+users = json.loads(urlopen("https://randomuser.me/api/?results=30").read())["results"]
 
 def print_table():
     table = Table(title="Star Wars Movies")
+    table.add_section()
 
     table.add_column("Released", style="cyan", no_wrap=True)
     table.add_column("Title", style="magenta")
