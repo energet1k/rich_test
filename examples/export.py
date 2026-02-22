@@ -8,6 +8,7 @@ from rich.table import Table
 console = Console(record=True)
 
 users = json.loads(urlopen("https://randomuser.me/api/?results=30").read())["results"]
+console.print(users)
 
 def print_table():
     table = Table(title="Star Wars Movies")
