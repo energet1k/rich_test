@@ -19,7 +19,8 @@ VERSIONS = {UNICODE_VERSIONS!r}
 with open(path, "wt") as init_file:
     init_file.write(init)
 
-subprocess.run(f"black {path}", shell=True)
+# Run Black formatter without using a shell to avoid injection vulnerabilities.
+subprocess.run(["black", str(path)], check=True)
 
 
 narrow_to_wide: set[str] = set()
@@ -50,4 +51,5 @@ cell_table = CellTable({cell_table.unicode_version!r}, {cell_table.widths!r}, fr
     with open(path, "wt") as file_out:
         file_out.write(table_file)
 
-    subprocess.run(f"black {path}", shell=True)
+    # Run black formatter without using a shell to avoid security issues (Bandit B602)
+    subprocess.run(["black", str(path)])
