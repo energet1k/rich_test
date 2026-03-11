@@ -50,4 +50,6 @@ cell_table = CellTable({cell_table.unicode_version!r}, {cell_table.widths!r}, fr
     with open(path, "wt") as file_out:
         file_out.write(table_file)
 
-    subprocess.run(f"black {path}", shell=True)
+    # Run black formatter without using a shell to avoid injection vulnerabilities.
+    # Using a list of arguments ensures that the path is passed safely.
+    subprocess.run(["black", str(path)], check=True)

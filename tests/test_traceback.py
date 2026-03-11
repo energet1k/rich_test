@@ -192,7 +192,10 @@ def test_caused_exception():
 def test_filename_with_bracket():
     console = Console(width=100, file=io.StringIO())
     try:
-        exec(compile("1/0", filename="<string>", mode="exec"))
+        # Use eval instead of exec to avoid Bandit B102 warning.
+        # Compiling in 'eval' mode is sufficient for the expression "1/0"
+        # and preserves the custom filename in the traceback.
+        eval(compile("1/0", filename="<string>", mode="eval"))
     except Exception:
         console.print_exception()
     exception_text = console.file.getvalue()
