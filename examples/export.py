@@ -2,6 +2,8 @@
 Demonstrates export console output
 """
 
+import json
+from urllib.request import urlopen
 from rich.console import Console
 from rich.table import Table
 
