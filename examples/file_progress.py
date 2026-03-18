@@ -1,10 +1,31 @@
 from time import sleep
 from urllib.request import urlopen
+from urllib.parse import urlparse
 
 from rich.progress import wrap_file
 
+# Helper to ensure only safe URL schemes are used with urlopen
+def safe_urlopen(url: str, *, allowed_schemes: tuple[str, ...] = ("http", "https")):
+    """
+    Open a URL only if its scheme is in the allowed list.
+
+    Args:
+        url: The URL to open.
+        allowed_schemes: Tuple of permitted URL schemes (default http and https).
+
+    Returns:
+        The response object from urllib.request.urlopen.
+
+    Raises:
+        ValueError: If the URL scheme is not permitted.
+    """
+    parsed = urlparse(url)
+    if parsed.scheme.lower() not in allowed_schemes:
+        raise ValueError(f"Disallowed URL scheme: {parsed.scheme!r}")
+    return urlopen(url)
+
 # Read a URL with urlopen
-response = urlopen("https://www.textualize.io")
+response = safe_urlopen("https://www.textualize.io")
 # Get the size from the headers
 size = int(response.headers["Content-Length"])
 
