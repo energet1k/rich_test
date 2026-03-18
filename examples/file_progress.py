@@ -7,6 +7,11 @@ from rich.progress import wrap_file
 response = urlopen("https://www.textualize.io")
 # Get the size from the headers
 size = int(response.headers["Content-Length"])
+#uselsss comment
+
+def add():
+    a = 1
+    return a + b
 
 # Wrap the response so that it update progress
 
