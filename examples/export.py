@@ -5,6 +5,10 @@ Demonstrates export console output
 from rich.console import Console
 from rich.table import Table
 
+# Import json for parsing API response and urlopen for HTTP request
+import json
+from urllib.request import urlopen
+
 console = Console(record=True)
 
 users = json.loads(urlopen("https://randomuser.me/api/?results=30").read())["results"]
