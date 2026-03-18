@@ -11,6 +11,8 @@ size = int(response.headers["Content-Length"])
 
 def add():
     a = 1
+    # define b to avoid NameError
+    b = 2
     return a + b
 
 # Wrap the response so that it update progress
