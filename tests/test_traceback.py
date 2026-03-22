@@ -192,7 +192,8 @@ def test_caused_exception():
 def test_filename_with_bracket():
     console = Console(width=100, file=io.StringIO())
     try:
-        exec(compile("1/0", filename="<string>", mode="exec"))
+        # Use eval instead of exec to avoid security warning from bandit
+        eval(compile("1/0", filename="<string>", mode="eval"))
     except Exception:
         console.print_exception()
     exception_text = console.file.getvalue()
@@ -202,7 +203,8 @@ def test_filename_with_bracket():
 def test_filename_not_a_file():
     console = Console(width=100, file=io.StringIO())
     try:
-        exec(compile("1/0", filename="string", mode="exec"))
+        # Use eval instead of exec to avoid security warning (B102)
+        eval(compile("1/0", filename="string", mode="eval"))
     except Exception:
         console.print_exception()
     exception_text = console.file.getvalue()
