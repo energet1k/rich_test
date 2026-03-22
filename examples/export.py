@@ -2,6 +2,9 @@
 Demonstrates export console output
 """
 
+# import json for parsing API response
+import json
+from urllib.request import urlopen
 from rich.console import Console
 from rich.table import Table
 
