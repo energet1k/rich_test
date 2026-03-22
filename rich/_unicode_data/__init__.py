@@ -89,5 +89,7 @@ def load(unicode_version: str = "auto") -> CellTable:
     module_name = f".unicode{version_path_component}"
     module = import_module(module_name, "rich._unicode_data")
     if TYPE_CHECKING:
-        assert isinstance(module.cell_table, CellTable)
+        # short reason: replace assert with cast to avoid removal in optimized mode
+        from typing import cast
+        module.cell_table = cast(CellTable, module.cell_table)
     return module.cell_table

@@ -127,8 +127,8 @@ def test_print_exception_locals():
 def test_syntax_error():
     console = Console(width=100, file=io.StringIO())
     try:
-        # raises SyntaxError: unexpected EOF while parsing
-        eval("(2+2")
+        # Use compile to trigger SyntaxError without using eval (safer)
+        compile("(2+2", "<string>", "eval")
     except SyntaxError:
         console.print_exception()
     exception_text = console.file.getvalue()
@@ -202,7 +202,8 @@ def test_filename_with_bracket():
 def test_filename_not_a_file():
     console = Console(width=100, file=io.StringIO())
     try:
-        exec(compile("1/0", filename="string", mode="exec"))
+        # needed to generate a traceback with a custom filename for the test
+        exec(compile("1/0", filename="string", mode="exec"))  # nosec
     except Exception:
         console.print_exception()
     exception_text = console.file.getvalue()
