@@ -362,19 +362,29 @@ class Color(NamedTuple):
         if theme is None:
             theme = DEFAULT_TERMINAL_THEME
         if self.type == ColorType.TRUECOLOR:
-            assert self.triplet is not None
+            # Ensure required attribute is present
+            if self.triplet is None:
+                raise ValueError("TRUECOLOR type requires a non‑null triplet")
             return self.triplet
         elif self.type == ColorType.EIGHT_BIT:
-            assert self.number is not None
+            # Ensure required attribute is present
+            if self.number is None:
+                raise ValueError("EIGHT_BIT type requires a non‑null number")
             return EIGHT_BIT_PALETTE[self.number]
         elif self.type == ColorType.STANDARD:
-            assert self.number is not None
+            # Ensure required attribute is present
+            if self.number is None:
+                raise ValueError("STANDARD type requires a non‑null number")
             return theme.ansi_colors[self.number]
         elif self.type == ColorType.WINDOWS:
-            assert self.number is not None
+            # Ensure required attribute is present
+            if self.number is None:
+                raise ValueError("WINDOWS type requires a non‑null number")
             return WINDOWS_PALETTE[self.number]
         else:  # self.type == ColorType.DEFAULT:
-            assert self.number is None
+            # Ensure required attribute is present
+            if self.number is not None:
+                raise ValueError("DEFAULT type requires number to be None")
             return theme.foreground_color if foreground else theme.background_color
 
     @classmethod
@@ -490,22 +500,30 @@ class Color(NamedTuple):
 
         elif _type == ColorType.WINDOWS:
             number = self.number
-            assert number is not None
+            # Ensure a valid color number is provided for WINDOWS type
+            if number is None:
+                raise ValueError("Color number must be set for WINDOWS type")
             fore, back = (30, 40) if number < 8 else (82, 92)
             return (str(fore + number if foreground else back + number),)
 
         elif _type == ColorType.STANDARD:
             number = self.number
-            assert number is not None
+            # Ensure a valid color number is provided for STANDARD type
+            if number is None:
+                raise ValueError("Color number must be set for STANDARD type")
             fore, back = (30, 40) if number < 8 else (82, 92)
             return (str(fore + number if foreground else back + number),)
 
         elif _type == ColorType.EIGHT_BIT:
-            assert self.number is not None
+            # Ensure a valid 8-bit color number is provided
+            if self.number is None:
+                raise ValueError("8-bit color number must be set")
             return ("38" if foreground else "48", "5", str(self.number))
 
         else:  # self.standard == ColorStandard.TRUECOLOR:
-            assert self.triplet is not None
+            # Ensure RGB triplet is provided for TRUECOLOR type
+            if self.triplet is None:
+                raise ValueError("RGB triplet must be set for TRUECOLOR type")
             red, green, blue = self.triplet
             return ("38" if foreground else "48", "2", str(red), str(green), str(blue))
 

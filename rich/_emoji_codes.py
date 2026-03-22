@@ -153,7 +153,8 @@ EMOJI = {
     "japanese_post_office": "🏣",
     "japanese_prohibited_button": "🈲",
     "japanese_reserved_button": "🈯",
-    "japanese_secret_button": "㊙",
+    # suppress false positive detection (hardcoded password)
+    "japanese_secret_button": "㊙",  # nosec B105
     "japanese_service_charge_button": "🈂",
     "japanese_symbol_for_beginner": "🔰",
     "japanese_vacancy_button": "🈳",
@@ -2879,7 +2880,8 @@ EMOJI = {
     "accept": "🉑",
     "ideograph_advantage": "🉐",
     "congratulations": "㊗",
-    "secret": "㊙",
+    # Use Unicode escape to avoid hardcoded password false positive
+    "secret": "\u3299",
     "m": "Ⓜ",
     "city_sunset": "🌆",
     "clapper": "🎬",

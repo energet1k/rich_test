@@ -50,4 +50,5 @@ cell_table = CellTable({cell_table.unicode_version!r}, {cell_table.widths!r}, fr
     with open(path, "wt") as file_out:
         file_out.write(table_file)
 
-    subprocess.run(f"black {path}", shell=True)
+    # Avoid using shell=True to prevent command injection risks
+    subprocess.run(["black", str(path)])
