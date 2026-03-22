@@ -432,8 +432,11 @@ class LegacyWindowsTerm:
         else:
             back = self._default_back
 
-        assert fore is not None
-        assert back is not None
+        # Ensure fore and back are set; raise an error if they are None
+        if fore is None:
+            raise RuntimeError("Foreground color value is None")
+        if back is None:
+            raise RuntimeError("Background color value is None")
 
         SetConsoleTextAttribute(
             self._handle, attributes=ctypes.c_ushort(fore | (back << 4))
@@ -562,7 +565,9 @@ class LegacyWindowsTerm:
         Args:
             title (str): The new title of the console window
         """
-        assert len(title) < 255, "Console title must be less than 255 characters"
+        # Validate title length without using assert (asserts can be stripped with -O)
+        if len(title) >= 255:
+            raise ValueError("Console title must be less than 255 characters")
         SetConsoleTitle(title)
 
     def _get_cursor_size(self) -> int:

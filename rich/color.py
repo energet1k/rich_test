@@ -362,19 +362,29 @@ class Color(NamedTuple):
         if theme is None:
             theme = DEFAULT_TERMINAL_THEME
         if self.type == ColorType.TRUECOLOR:
-            assert self.triplet is not None
+            # Ensure required attributes are present; replace assert with explicit check
+            if self.triplet is None:
+                raise ValueError("TRUECOLOR type requires a non‑null triplet")
             return self.triplet
         elif self.type == ColorType.EIGHT_BIT:
-            assert self.number is not None
+            # Ensure required attributes are present; replace assert with explicit check
+            if self.number is None:
+                raise ValueError("EIGHT_BIT type requires a non‑null number")
             return EIGHT_BIT_PALETTE[self.number]
         elif self.type == ColorType.STANDARD:
-            assert self.number is not None
+            # Ensure required attributes are present; replace assert with explicit check
+            if self.number is None:
+                raise ValueError("STANDARD type requires a non‑null number")
             return theme.ansi_colors[self.number]
         elif self.type == ColorType.WINDOWS:
-            assert self.number is not None
+            # Ensure required attributes are present; replace assert with explicit check
+            if self.number is None:
+                raise ValueError("WINDOWS type requires a non‑null number")
             return WINDOWS_PALETTE[self.number]
         else:  # self.type == ColorType.DEFAULT:
-            assert self.number is None
+            # Ensure required attributes are present; replace assert with explicit check
+            if self.number is not None:
+                raise ValueError("DEFAULT type requires number to be None")
             return theme.foreground_color if foreground else theme.background_color
 
     @classmethod
